@@ -1,1 +1,8 @@
-/tests/**/*/results.json
+**/*.o
+**/tests
+**/debug.asm
+!tests/
+tests/**/results.json
+tests/**/results.out
+output/
+.DS_Store

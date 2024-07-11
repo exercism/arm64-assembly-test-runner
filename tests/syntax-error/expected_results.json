@@ -1,5 +1,6 @@
 {
-  "version": 1,
+  "version": 2,
   "status": "error",
-  "message": "TODO: replace with correct output"
+  "message": "fake.s: Assembler messages:\nfake.s:5: Error: unknown mnemonic `return' -- `return'\nmake: *** [Makefile:29: fake.o] Error 1\n",
+  "tests": []
 }
