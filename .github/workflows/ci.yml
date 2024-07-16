@@ -31,13 +31,13 @@ jobs:
         run: docker buildx inspect --bootstrap
 
       - name: Build Docker image and store in cache
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@a254f8ca60a858f3136a2f1f23a60969f2c402dd
         with:
           context: .
           platforms: linux/arm64
           push: false
           load: true
-          tags: exercism/test-runner
+          tags: exercism/arm64-assembly-test-runner
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
