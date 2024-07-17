@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
       - name: Install QEMU and dependencies
         run: |
@@ -31,7 +31,7 @@ jobs:
         run: docker buildx inspect --bootstrap
 
       - name: Build Docker image and store in cache
-        uses: docker/build-push-action@a254f8ca60a858f3136a2f1f23a60969f2c402dd
+        uses: docker/build-push-action@4fd812986e6c8c2a69e18311145f9371337f27d4
         with:
           context: .
           platforms: linux/arm64
