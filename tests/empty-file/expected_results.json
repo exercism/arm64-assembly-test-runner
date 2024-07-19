@@ -1,5 +1,6 @@
 {
-  "version": 1,
-  "status": "fail",
-  "message": "TODO: replace with correct output"
+  "version": 2,
+  "status": "error",
+  "message": "/usr/lib/gcc/aarch64-alpine-linux-musl/13.2.1/../../../../aarch64-alpine-linux-musl/bin/ld: empty_file_test.o: in function `test_add':\n/opt/test-runner/tests/empty-file/empty_file_test.c:14:(.text+0x20): undefined reference to `add'\ncollect2: error: ld returned 1 exit status\nmake: *** [Makefile:26: tests] Error 1\n",
+  "tests": []
 }
