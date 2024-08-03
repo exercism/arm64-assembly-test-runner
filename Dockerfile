@@ -4,7 +4,7 @@ FROM alpine:3.20.1
 RUN apk add --no-cache \
     qemu qemu-img qemu-system-x86_64 qemu-system-aarch64 qemu-user-static \
     binutils-aarch64 \
-    gcc-aarch64-linux-gnu \
+    gcc-aarch64 \
     make
     
 # Register QEMU with binfmt
