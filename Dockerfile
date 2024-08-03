@@ -6,13 +6,11 @@ RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk
     qemu qemu-system-x86_64 qemu-system-aarch64 qemu-user-static \
     binutils-aarch64-linux-gnu@edge \
     gcc-aarch64-linux-gnu@edge \
-    make
+    make \
+    binfmt-support
 
-
-# Register QEMU with binfmt_misc
-RUN mkdir -p /proc/sys/fs/binfmt_misc && \
-    mount -t binfmt_misc binfmt_misc /proc/sys/fs/binfmt_misc && \
-    echo ':qemu-aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\xb7\x00:\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff:/usr/bin/qemu-aarch64:' > /proc/sys/fs/binfmt_misc/register
+# Register QEMU for ARM64
+RUN update-binfmts --enable qemu-aarch64
 
 WORKDIR /opt/test-runner
 COPY . .
