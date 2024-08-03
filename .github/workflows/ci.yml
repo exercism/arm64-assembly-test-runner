@@ -16,12 +16,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
 
-      - name: Install QEMU and dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu binfmt-support qemu-user-static
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@988b5a0280414f521da01fcc63a27aeeb4b104db
         with:
@@ -34,7 +28,7 @@ jobs:
         uses: docker/build-push-action@5176d81f87c23d6fc96624dfdbcd9f3830bbe445
         with:
           context: .
-          platforms: linux/arm64
+          platforms: linux/amd64
           push: false
           load: true
           tags: exercism/arm64-assembly-test-runner
