@@ -1,32 +1,28 @@
-# Variables
-AS = as
-CC = gcc
+AS = aarch64-linux-gnu-as
+CC = aarch64-linux-gnu-gcc
 
 CFLAGS = -g -Wall -Wextra -pedantic -Werror
 LDFLAGS =
-ASFLAGS = -g
+
+ALL_LDFLAGS = -pie -Wl,--fatal-warnings
 
 ALL_CFLAGS = -std=c99 -fPIE $(CFLAGS)
-ALL_LDFLAGS = -pie -Wl,--fatal-warnings
-ALL_ASFLAGS = $(ASFLAGS)
+ALL_LDFLAGS += $(LDFLAGS)
 
-# File lists
 C_OBJS = $(patsubst %.c,%.o,$(wildcard *.c))
 AS_OBJS = $(patsubst %.s,%.o,$(wildcard *.s))
 ALL_OBJS = $(filter-out example.o,$(C_OBJS) $(AS_OBJS) vendor/unity.o)
 
-# Commands
 CC_CMD = $(CC) $(ALL_CFLAGS) -c -o $@ $<
 
-# Targets
 all: tests
-	@./$<
+	@qemu-aarch64 -L /usr/aarch64-linux-gnu ./$<
 
 tests: $(ALL_OBJS)
 	@$(CC) $(ALL_CFLAGS) $(ALL_LDFLAGS) -o $@ $(ALL_OBJS)
 
 %.o: %.s
-	@$(AS) $(ALL_ASFLAGS) -o $@ $<
+	@$(AS) -o $@ $<
 
 %.o: %.c
 	@$(CC_CMD)
