@@ -1,7 +1,14 @@
-FROM arm64v8/alpine:3.20.1
+FROM ubuntu:24.04
 
 # install packages required to run the tests
-RUN apk add --no-cache jq coreutils gcc libc-dev make python3
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install --no-install-recommends \
+        gcc-aarch64-linux-gnu \
+        libc6-dev-arm64-cross \
+        make \
+        python3 \
+        qemu-user \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/test-runner
 COPY . .
