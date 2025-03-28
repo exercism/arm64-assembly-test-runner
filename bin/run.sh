@@ -31,5 +31,5 @@ test_file=$(echo "${slug}" | sed 's/-/_/g')_test.c
 cd "${solution_dir}" || exit
 sed -i 's#TEST_IGNORE();#// &#' "${test_file}"
 make clean
-make > "${output_dir}/results.out" 2>&1
+make -s > "${output_dir}/results.out" 2>&1
 python3 "${cwd}"/process_results.py "${output_dir}/results.out"
