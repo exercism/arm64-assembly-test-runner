@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# This is a wrapper script to allow calling TinyCC as if it was GCC.
+# Unsupported flags a dropped, all others are forwarded.
+
+set -e
+
+flags=
+for arg in "$@"; do
+    case "$arg" in
+        -pie|-Wl,*) 
+            continue
+            ;;
+        *)
+            flags="$flags $arg"
+            ;;
+    esac
+done
+
+echo $flags
+exec /usr/local/bin/tcc $flags

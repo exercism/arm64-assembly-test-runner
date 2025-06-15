@@ -33,14 +33,15 @@ output_dir=$(realpath "${3%/}")
 mkdir -p "${output_dir}"
 
 # Build the Docker image
-docker build --rm -t exercism/arm64-assembly-test-runner .
+docker build --platform linux/amd64 --rm -t exercism/arm64-assembly-test-runner .
 
 # Run the Docker image using the settings mimicking the production environment
 docker run \
+    --platform linux/amd64 \
     --rm \
     --network none \
     --read-only \
     --mount type=bind,src="${solution_dir}",dst=/solution \
     --mount type=bind,src="${output_dir}",dst=/output \
-    --mount type=tmpfs,dst=/tmp \
+    --tmpfs /tmp:exec \
     exercism/arm64-assembly-test-runner "${slug}" /solution /output 

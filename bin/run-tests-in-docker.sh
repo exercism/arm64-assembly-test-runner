@@ -16,15 +16,16 @@
 set -e
 
 # Build the Docker image
-docker build --rm -t exercism/arm64-assembly-test-runner .
+docker build --platform linux/amd64 --rm -t exercism/arm64-assembly-test-runner .
 
 # Run the Docker image using the settings mimicking the production environment
 docker run \
+    --platform linux/amd64 \
     --rm \
     --network none \
     --read-only \
     --mount type=bind,src="${PWD}/tests",dst=/opt/test-runner/tests \
-    --mount type=tmpfs,dst=/tmp \
+    --tmpfs /tmp:exec \
     --volume "${PWD}/bin/run-tests.sh:/opt/test-runner/bin/run-tests.sh" \
     --workdir /opt/test-runner \
     --entrypoint /opt/test-runner/bin/run-tests.sh \
