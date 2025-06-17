@@ -32,4 +32,4 @@ cd "${solution_dir}" || exit
 sed -i 's#TEST_IGNORE();#// &#' "${test_file}"
 make clean
 make -s > "${output_dir}/results.out" 2>&1
-${cwd}/process_results.py.bin "${output_dir}/results.out"
+python3 "${cwd}"/process_results.py "${output_dir}/results.out"

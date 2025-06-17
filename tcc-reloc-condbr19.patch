@@ -1,0 +1,18 @@
+--- tcc-0.9.27/arm64-link.c	2017-12-17 08:27:05.000000000 +0000
++++ tcc-0.9.27.patched/arm64-link.c	2025-06-17 20:18:08.614007478 +0000
+@@ -44,6 +44,7 @@
+         case R_AARCH64_JUMP26:
+         case R_AARCH64_CALL26:
+         case R_AARCH64_JUMP_SLOT:
++        case R_AARCH64_CONDBR19:
+             return 1;
+     }
+ 
+@@ -73,6 +74,7 @@
+         case R_AARCH64_ABS64:
+         case R_AARCH64_JUMP26:
+         case R_AARCH64_CALL26:
++        case R_AARCH64_CONDBR19:
+             return AUTO_GOTPLT_ENTRY;
+ 
+         case R_AARCH64_ADR_GOT_PAGE:

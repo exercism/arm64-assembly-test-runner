@@ -17,5 +17,4 @@ for arg in "$@"; do
     esac
 done
 
-echo $flags
 exec /usr/local/bin/tcc $flags
