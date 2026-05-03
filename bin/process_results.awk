@@ -1,3 +1,4 @@
+#!/bin/awk -f
 function jesc(s) {
     gsub(/\\/, "\\\\", s)
     gsub(/"/,  "\\\"", s)
@@ -18,9 +19,10 @@ function truncate(s,    notice) {
 BEGIN {
     last_test = ""
     while ((getline line < test_src) > 0) {
-        while (match(line, /RUN_TEST\([A-Za-z_][A-Za-z0-9_]*\)/)) {
-            last_test = substr(line, RSTART + 9, RLENGTH - 10)
-            line = substr(line, RSTART + RLENGTH)
+        n = split(line, parts, /RUN_TEST\(/)
+        if (n > 1) {
+            end = index(parts[n], ")")
+            if (end > 1) last_test = substr(parts[n], 1, end - 1)
         }
     }
     close(test_src)
@@ -32,23 +34,20 @@ BEGIN {
 }
 completed { next }
 /^[^:]+_test\.c:[0-9]+:[A-Za-z_][A-Za-z0-9_]*:(PASS|FAIL)(:.*)?$/ {
-    line = $0
-    p1 = index(line, ":")
-    rest = substr(line, p1 + 1)
-    p2 = index(rest, ":")
-    rest2 = substr(rest, p2 + 1)
-    p3 = index(rest2, ":")
-    test_name = substr(rest2, 1, p3 - 1)
-    rest3 = substr(rest2, p3 + 1)
-    if (substr(rest3, 1, 4) == "PASS") {
+    n = split($0, F, ":")
+    test_name = F[3]
+    if (F[4] == "PASS") {
         test_status = "pass"
         has_msg = 0
     } else {
         test_status = "fail"
         overall_status = "fail"
-        tail = substr(rest3, 5)
-        if (substr(tail, 1, 2) == ": ") {
-            msg = substr(tail, 3)
+        if (n >= 5) {
+            # Rejoin trailing fields in case the message contains colons.
+            msg = F[5]
+            for (i = 6; i <= n; i++) msg = msg ":" F[i]
+            # Strip the leading space from ": <msg>".
+            if (substr(msg, 1, 1) == " ") msg = substr(msg, 2)
             has_msg = 1
         } else {
             has_msg = 0
