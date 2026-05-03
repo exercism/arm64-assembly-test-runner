@@ -20,9 +20,8 @@ BEGIN {
     last_test = ""
     while ((getline line < test_src) > 0) {
         n = split(line, parts, /RUN_TEST\(/)
-        if (n > 1) {
-            end = index(parts[n], ")")
-            if (end > 1) last_test = substr(parts[n], 1, end - 1)
+        if (n > 1 && split(parts[n], portions, ")") > 1) {
+            last_test = portions[1]
         }
     }
     close(test_src)
@@ -36,21 +35,17 @@ completed { next }
 /^[^:]+_test\.c:[0-9]+:[A-Za-z_][A-Za-z0-9_]*:(PASS|FAIL)(:.*)?$/ {
     n = split($0, F, ":")
     test_name = F[3]
-    if (F[4] == "PASS") {
-        test_status = "pass"
-        has_msg = 0
-    } else {
-        test_status = "fail"
+    test_status = tolower(F[4])
+    has_msg = 0
+    if (test_status == "fail") {
         overall_status = "fail"
         if (n >= 5) {
-            # Rejoin trailing fields in case the message contains colons.
+            # F[5] is " <msg>" (leading space from ": "); F[6..n] are present
+            # only if the message itself contains colons.
             msg = F[5]
+            sub(/^ /, "", msg)
             for (i = 6; i <= n; i++) msg = msg ":" F[i]
-            # Strip the leading space from ": <msg>".
-            if (substr(msg, 1, 1) == " ") msg = substr(msg, 2)
             has_msg = 1
-        } else {
-            has_msg = 0
         }
     }
     n_tests++
