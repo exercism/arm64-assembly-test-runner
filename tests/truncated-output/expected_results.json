@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "status": "pass",
+  "message": null,
+  "tests": [
+    {
+      "name": "test_identity",
+      "status": "pass",
+      "output": "0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789abcdef0123\n0123456789\nOutput was truncated. Please limit to 500 chars."
+    }
+  ]
+}

@@ -32,4 +32,6 @@ cd "${solution_dir}" || exit
 sed -i 's#TEST_IGNORE();#// &#' "${test_file}"
 make clean
 make -s > "${output_dir}/results.out" 2>&1
-python3 "${cwd}"/process_results.py "${output_dir}/results.out"
+awk -v test_src="${test_file}" -f "${cwd}/bin/process_results.awk" \
+    < "${output_dir}/results.out" \
+    | jq --indent 2 . > "${results_file}"
