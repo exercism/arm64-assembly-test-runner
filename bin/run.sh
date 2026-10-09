@@ -32,6 +32,8 @@ cd "${solution_dir}" || exit
 sed -i 's#TEST_IGNORE();#// &#' "${test_file}"
 make clean
 make -s > "${output_dir}/results.out" 2>&1
+# Strip the linker's path, which varies between toolchain versions
+sed -i -E 's#^/[^ :]*/[^ /:]*ld(\.[a-z]+)?: #ld: #' "${output_dir}/results.out"
 awk -v test_src="${test_file}" -f "${cwd}/bin/process_results.awk" \
     < "${output_dir}/results.out" \
     | jq --indent 2 . > "${results_file}"
